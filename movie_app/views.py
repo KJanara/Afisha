@@ -13,7 +13,6 @@ def director_list(request):
     serializer = DirectorSerializer(directors, many=True)
     return Response(serializer.data)
 
-
 @api_view(['GET'])
 def director_detail(request, id):
     director = get_object_or_404(Director, id=id)
@@ -48,3 +47,20 @@ def review_detail(request, id):
     serializer = ReviewSerializer(review)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def movie_reviews(request):
+    movies = Movie.objects.all()
+    movie_data = []
+
+    for movie in movies:
+        reviews = movie.reviews.all()
+        reviews_serializer = ReviewSerializer(reviews, many=True)
+        average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+
+        movie_data.append({
+            'movie': MovieSerializer(movie).data,
+            'reviews': reviews_serializer.data,
+            'average_rating': average_rating,
+        })
+
+    return Response(movie_data)
