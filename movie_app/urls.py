@@ -7,5 +7,4 @@ urlpatterns = [
   path('movies/<int:id>/', views.movies_detail),
   path('reviews/', views.review_list),
   path('reviews/<int:id>/', views.review_detail),
-  path('movies/reviews/', views.movie_reviews),
 ]
