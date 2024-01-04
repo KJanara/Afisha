@@ -98,7 +98,7 @@ def review_list(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def review_detail(request, id):
   try:
-    review = Director.objects.get(id=id)
+    review = Review.objects.get(id=id)
   except:
     return Response(data={'massage': 'movie nit found'}, status=status.HTTP_404_NOT_FOUND)
   if request.method == 'GET':
